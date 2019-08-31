@@ -10,6 +10,8 @@ PrimeHunter_Julia does the same thing as PrimeHunter_Python. It has been written
 - single mode
 ## Version 1.01 (August, 14 2019)
 - improved code structure (OOP) and added try/catch statements
+## Version 1.02 (August, 15 2019)
+- added execution time in output
 
 # How to run the script
 First thing one has to type julia in the terminal where it is stored the prime-hunter.jl, and, afterwards, one should type:
