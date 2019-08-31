@@ -3,12 +3,13 @@
 
 author = "Roberto Bastone"
 email = "robertobastone93@gmail.com"
-version = "1.01"
+version = "1.02"
 
 yes = ["Yes","yes","YES","Y","y"]
 no = ["No","no","NO","N","n"]
 
 # code
+using Dates
 
 function main()
 	keepOnHunting = true
@@ -32,19 +33,23 @@ function hunter()
 		try
 			printstyled("Type an integer, the hunter will tell whether it is a prime number.\n",color=:blue)
 			num = readline()
-
-			while   parse(Int64,num) % div != 0  
+			start_time = Dates.Time(Dates.now())
+			while   parse(Int64,num) % div != 0
 				div +=  1
 			end
 			if   parse(Int64,num)  == div
-				println("The Hunter says that ", num, " is prime. \n")
-			else 
-				println("The Hunter says that ", div, " is the divisor of ", num, ".\n")
+				execution_time = Dates.Time(Dates.now()) - start_time
+				execution_time_millisecond = convert(Dates.Millisecond, execution_time)
+				println("The Hunter says that ", num, " is prime (hunting time: ", execution_time_millisecond ,").\n")
+			else
+				execution_time = Dates.Time(Dates.now()) - start_time
+				execution_time_millisecond = convert(Dates.Millisecond, execution_time)
+				println("The Hunter says that ", div, " is the divisor of ", num, " (hunting time: ", execution_time_millisecond ,").\n")
 			end
 			break
 		catch
 			printstyled("This is not an integer. \n",color=:red)
-			continue	
+			continue
 		end
 	end
 end
