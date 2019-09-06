@@ -1,10 +1,17 @@
 
 ######################### Prime Hunter (Julia)
-using PyPlot
-
+# about me
 author = "Roberto Bastone"
 email = "robertobastone93@gmail.com"
-version = "1.03"
+
+# about the script
+version = "1.04"
+pyPlotScriptVersion = v"2.8.2"
+# packages needed
+using Pkg
+using PyPlot
+using Dates
+pkgs = Pkg.installed();
 
 yes = ["Yes","yes","YES","Y","y"]
 no = ["No","no","NO","N","n"]
@@ -13,19 +20,31 @@ primenumbers_array =[]
 execution_time_array =[]
 
 # code
-using Dates
 
 function main()
 	primenumbers_array =[]
 	execution_time_array =[]
 	keepOnHunting = true
-	introduction()
-	while keepOnHunting == true
-		hunter()
-	        keepOnHunting = doYouWishToContinue()
+	if checkPackages()
+		introduction()
+		while keepOnHunting == true
+			hunter()
+		        keepOnHunting = doYouWishToContinue()
+		end
+		plottingPNvsET()
+		sayingGoodbye()
+	else
+		printstyled("Packages requirements not satisfied. Check \"Requirements\" section in README",color=:red)
 	end
-	plottingPNvsET()
-	sayingGoodbye()
+end
+
+function checkPackages()
+	pyplotVersion = pkgs["PyPlot"]
+	if (pyplotVersion ===  pyPlotScriptVersion)
+		return true
+	else
+		return false
+	end
 end
 
 function introduction()
@@ -72,9 +91,11 @@ function doYouWishToContinue()
 		if any(x->x==choice, yes)
 			return true
 		elseif any(x->x==choice, no)
-			println("Prime numbers found: ",primenumbers_array)
-			println("Execution time: ",execution_time_array)
-			#printstyled("Do you wish to continue? [y/n] ",color=:blue)
+			if !isempty(primenumbers_array) && !isempty(execution_time_array)
+				println("Prime numbers found: ",primenumbers_array)
+				println("Execution time: ",execution_time_array)
+				#printstyled("Do you wish to continue? [y/n] ",color=:blue)
+			end
 			return false
 		else
 			printstyled("Invalid input. \n",color=:yellow)
@@ -84,7 +105,16 @@ function doYouWishToContinue()
 end
 
 function plottingPNvsET()
-    plot(execution_time_array, primenumbers_array, color="red", linewidth=2.0, linestyle="--")
+	if !isempty(primenumbers_array) && !isempty(execution_time_array)
+		plotColor = "red"
+		plotLineWidth = 2.0
+		plotLineStyle = "--"
+		scatter(execution_time_array,primenumbers_array)
+	    plot(execution_time_array, primenumbers_array, color=plotColor, linewidth=plotLineWidth, linestyle=plotLineStyle)
+		title("Prime Number vs Execution Time")
+		xlabel("Execution Time (milliseconds)")
+		ylabel("Prime Number")
+	end
 end
 
 function sayingGoodbye()
