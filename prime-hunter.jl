@@ -2,7 +2,6 @@
 ######################### Prime Hunter (Julia)
 # about me
 author = "Roberto Bastone"
-email = "robertobastone93@gmail.com"
 
 # about the script
 version = "1.04"
@@ -50,7 +49,6 @@ end
 function introduction()
 	printstyled("Welcome to the prime Hunter version $version. \n",color=:blue)
 	printstyled("(Author: $author) \n",color=:blue)
-	printstyled("For info - or anything else - please, feel free to reach me at $email.\n",color=:blue)
 end
 
 function hunter()
